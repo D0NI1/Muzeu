@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rreth Nesh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            background: linear-gradient(180deg, #000 0%, #111 100%);
+            color: #e41e20;
+            line-height: 1.8;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(90deg, #e41e20, #ff3b3b);
+            color: #fff;
+            padding: 60px 20px;
+            border-bottom: 5px solid #000;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            font-weight: lighter;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: #222;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .section h2 {
+            color: #ff3b3b;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #e41e20;
+            padding-bottom: 8px;
+        }
+
+        .section p {
+            color: #e4e4e4;
+            font-size: 1.2rem;
+            margin-top: 15px;
+        }
+
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .team-member {
+            flex: 0 0 300px;
+            background-color: #111;
+            color: #e4e4e4;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 5px solid #e41e20;
+        }
+
+        .team-member h3 {
+            color: #ff3b3b;
+            margin: 15px 0;
+            font-size: 1.5rem;
+        }
+
+        .team-member p {
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 5px solid #e41e20;
+            border-radius: 8px;
+        }
+
+        .modal .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            background: #111;
+            color: #e4e4e4;
+            font-size: 1rem;
+            border-top: 3px solid #e41e20;
+        }
+
+        .footer a {
+            color: #e41e20;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff3b3b;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Rreth Muzeut Virtual</h1>
+        <p>Mësoni më shumë për qëllimin tonë, ekipin zhvillues dhe burimet e përdorura.</p>
+    </div>
+
+    <!-- Content Section -->
+    <div class="container">
+        <!-- About the Museum -->
+        <div class="section">
+            <h2>Qëllimi i Muzeut</h2>
+            <p>Ky muze virtual është krijuar për të prezantuar qytetet, kulturën dhe historinë shqiptare përmes një përvoje moderne dhe inovative. Duke përdorur teknologjinë, ne synojmë të lidhim njerëzit me trashëgiminë kulturore shqiptare, kudo që ndodhen në botë.</p>
+        </div>
+
+        <!-- Development Team -->
+        <div class="section">
+            <h2>Ekipi Zhvillues</h2>
+            <div class="team">
+                <div class="team-member" onclick="openModal('https://files.oaiusercontent.com/file-HRFhVU3UEgVi8YaPD7QApC?se=2025-02-10T19%3A22%3A22Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1ccbfd07-6ade-41af-b04b-fb957492b734.webp&sig=BP5ecYq2NQWA2Z/frkDy1uu2tr8wvl4%2BRiEIAbOE5Q8%3D')">
+                    <img src="https://files.oaiusercontent.com/file-HRFhVU3UEgVi8YaPD7QApC?se=2025-02-10T19%3A22%3A22Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1ccbfd07-6ade-41af-b04b-fb957492b734.webp&sig=BP5ecYq2NQWA2Z/frkDy1uu2tr8wvl4%2BRiEIAbOE5Q8%3D" alt="Donart Llalloshi">
+                    <h3>Donart Llalloshi</h3>
+                    <p>Projektues i UX/UI dhe zhvillues kryesor.</p>
+                </div>
+                <div class="team-member" onclick="openModal('https://files.oaiusercontent.com/file-6ctyPHnvMijgm8eyrHpPYz?se=2025-02-10T19%3A22%3A33Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D5df462dd-91ea-425b-b383-c77d1899027f.webp&sig=A5c8ShjGRpqjw1CdySdIaUHBfQaxAig9RR8LQ7jTmNI%3D')">
+                    <img src="https://files.oaiusercontent.com/file-6ctyPHnvMijgm8eyrHpPYz?se=2025-02-10T19%3A22%3A33Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D5df462dd-91ea-425b-b383-c77d1899027f.webp&sig=A5c8ShjGRpqjw1CdySdIaUHBfQaxAig9RR8LQ7jTmNI%3D" alt="Jon Behrami">
+                    <h3>Jon Behrami</h3>
+                    <p>Specialist për përmbajtjen kulturore dhe zhvillues i përmbajtjeve dhe videos për muzeun.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Sources -->
+        <div class="section">
+            <h2>Burimet e Imazheve</h2>
+            <p>Të gjitha imazhet e përdorura në këtë projekt janë marrë nga burime të besueshme, si platforma publike dhe fotografinë personale të ekipit. Disa prej tyre përfshijnë:</p>
+            <ul>
+                <li><a href="https://www.flickr.com" target="_blank">Flickr</a></li>
+                <li><a href="https://commons.wikimedia.org" target="_blank">Wikimedia Commons</a></li>
+                <li>Fotografi personale të siguruara nga bashkëpunëtorët.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" src="" alt="Image">
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Muzeu Për Foto Te Vjetra Shqipëtare. Vizitoni <a href="index.html">faqen kryesore</a> për më shumë.</p>
+    </div>
+
+    <script>
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

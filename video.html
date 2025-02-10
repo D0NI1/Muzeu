@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikoni Videon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            background: linear-gradient(180deg, #000 0%, #111 100%);
+            color: #e4e4e4;
+            line-height: 1.8;
+        }
+
+      .header {
+            text-align: center;
+            background: linear-gradient(90deg, #e41e20, #ff3b3b);
+            color: #fff;
+            padding: 50px 20px;
+            border-bottom: 5px solid #000;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header button {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            background: #111;
+            color: #fff;
+            border: 2px solid #e41e20;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .header button:hover {
+            background: #e41e20;
+            color: #fff;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Albanian_Eagle.svg/512px-Albanian_Eagle.svg.png?20200217124649') no-repeat center;
+            background-size: contain;
+            opacity: 0.7;
+            transition: left 0.5s ease, width 0.5s ease;
+  
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            background: #222;
+            border-radius: 8px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .description p {
+            color: #e4e4e4;
+        }
+
+        .description strong {
+            color: #e41e20;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Video Për Qytete Të Vjetra Shqiptare</h1>
+        <button onclick="window.location.href='index.html'">Kthehu</button>
+    </div>
+
+    <!-- Video Section -->
+    <div class="video-container">
+        <video controls>
+            <source src="your-video.mp4" type="video/mp4">
+            Browser-i juaj nuk e mbështet riprodhimin e videos.
+        </video>
+    </div>
+
+    <!-- Description Section -->
+    <div class="description">
+        <p>
+            <strong>Shënim:</strong> Kjo është një video edukative që demonstron një aspekt të veçantë të kulturës shqiptare.
+        </p>
+    </div>
+</body>
+</html>

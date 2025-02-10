@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzeu Virtual i Fotografive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .loading-screen, .intro-screen, .menu-screen {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .loading-screen {
+            display: flex;
+            background: #000;
+            color: #fff;
+            font-size: 2rem;
+            flex-direction: column;
+        }
+        .progress-bar {
+            width: 80%;
+            height: 30px;
+            background: #444;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: red;
+            transition: width 1s ease-in-out;
+        }
+        .intro-screen {
+            background: #E41E20;
+            position: relative;
+            flex-direction: column;
+        }
+        .intro-screen img {
+            width: 350px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 4s ease-in-out, transform 4s ease-in-out;
+        }
+        .menu-screen {
+            background: #121212;
+            flex-direction: column;
+        }
+        .menu-box {
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+        .menu-box img {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+        }
+        .menu-screen button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #E41E20;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-screen button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Albanian_Eagle.svg/512px-Albanian_Eagle.svg.png?20200217124649') no-repeat center;
+            background-size: contain;
+            opacity: 0.7;
+            transition: left 0.5s ease;
+        }
+        .menu-screen button:hover::before {
+            left: 0;
+        }
+        .menu-screen button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(228, 30, 32, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+<div class="loading-screen">
+   <h2 style="color: #E41E20;">Duke ngarkuar...</h2> 
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+</div>
+
+<div class="intro-screen">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Albanian_Eagle.svg/512px-Albanian_Eagle.svg.png?20200217124649" alt="Shqiponja Shqiptare" id="eagle">
+</div>
+
+<div class="menu-screen">
+    <div class="menu-box">
+       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Flag_of_Albania.svg/1200px-Flag_of_Albania.svg.png" width="300" height="150">
+       <br> 
+       <br> 
+       <br>  
+       <h1 style="color: #E41E20;">Muzeu Virtual i Fotografive</h1>
+       <button onclick="showGallery()">Shko te Muzeu</button>
+    </div>
+</div>
+
+<script>
+    // Loading Bar Animation
+    window.onload = function() {
+        document.querySelector('.loading-screen').style.display = 'flex';
+        let progress = document.querySelector('.progress-fill');
+        let percentage = 0;
+
+        let loadingInterval = setInterval(function() {
+            percentage += 20;
+            progress.style.width = percentage + '%';
+
+            if (percentage >= 100) {
+                clearInterval(loadingInterval);
+                setTimeout(startIntro, 500);
+            }
+        }, 1000);
+    };
+
+    // Intro Animation
+    function startIntro() {
+        document.querySelector('.loading-screen').style.display = 'none';
+        document.querySelector('.intro-screen').style.display = 'flex';
+
+        setTimeout(function() {
+            let eagle = document.getElementById('eagle');
+            eagle.style.opacity = 1;
+            eagle.style.transform = 'translateY(0)';
+
+            setTimeout(function() {
+                document.querySelector('.intro-screen').style.display = 'none';
+                document.querySelector('.menu-screen').style.display = 'flex';
+            }, 5000);  // Animation duration increased
+        }, 500);
+    }
+
+    // Show Gallery Placeholder Function
+    function showGallery() {
+        window.location.href = 'gallery.html';
+    }
+</script>
+
+</body>
+</html>

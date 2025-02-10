@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria e Fotografive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            background-color: #000; /* Black background */
+            color: #e41e20; /* Red text */
+            line-height: 1.6;
+        }
+        .gallery-header {
+            background: #e41e20; /* Red background */
+            color: #000;
+            text-align: center;
+            padding: 40px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 4px solid #000; /* Black border */
+        }
+        .gallery-header h1 {
+            font-size: 2.5rem;
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .gallery-header p {
+            font-size: 1.2rem;
+            color: #e4e4e4;
+            font-weight: lighter;
+            margin-top: 10px;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .header-buttons a {
+            padding: 12px 25px;
+            background-color: #000; /* Black background */
+            color: #e41e20; /* Red text */
+            text-decoration: none;
+            border-radius: 5px;
+            border: 2px solid #e41e20;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .header-buttons a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Albanian_Eagle.svg/512px-Albanian_Eagle.svg.png?20200217124649') no-repeat center;
+            background-size: contain;
+            opacity: 0.7;
+            transition: left 0.5s ease, width 0.5s ease;
+        }
+
+        .header-buttons a:hover {
+            background-color: #e41e20; /* Red background */
+            color: black;
+        }
+
+        .header-buttons a:hover::before {
+            width: 100%; /* Make it expand to full width on hover */
+            left: 0;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            background: #111; /* Dark background */
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            border-radius: 12px;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .gallery-item img:hover {
+            transform: scale(1.1);
+        }
+        .gallery-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Darker overlay */
+            opacity: 0;
+            color: #e41e20; /* Red text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease;
+            border-radius: 12px;
+        }
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        .overlay h3 {
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+        .description {
+            padding: 10px;
+            text-align: center;
+            font-size: 1rem;
+            color: #e4e4e4;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: #e41e20; /* Red background */
+            color: #000; /* Black text */
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            margin: 30px;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #c01a1a; /* Darker red */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .modal-content {
+            position: relative;
+            margin: 10% auto;
+            padding: 20px;
+            background-color: #111;
+            max-width: 800px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+        .modal-content .description {
+            margin-top: 15px;
+            color: #e41e20;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            color: #e41e20;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="gallery-header">
+        <h1>Galeria e Fotografive të Qyteteve Shqiptare</h1>
+        <div class="header-buttons">
+            <a href="about.html">Rreth Muzeut</a>
+            <a href="video.html">Video</a>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-container">
+        <!-- Gallery Items -->
+        <div class="gallery-item" onclick="openModal('Qyteti 5', 'https://live.staticflickr.com/8246/8459153386_7579f5a03a_z.jpg', 'Lezhë më 1974. Lezha, Albania, 1974.')">
+            <img src="https://live.staticflickr.com/8246/8459153386_7579f5a03a_z.jpg" alt="Foto 5">
+            <div class="overlay">
+                <h3>Lezhe,1974</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 6', 'https://live.staticflickr.com/8110/8455288193_4e43fb093c.jpg', 'Gjirokaster me 1924')">
+            <img src="https://live.staticflickr.com/8110/8455288193_4e43fb093c.jpg" alt="Foto 6">
+            <div class="overlay">
+                <h3>Gjirokaster,1924</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 7', 'https://live.staticflickr.com/8240/8456043966_9a71a1ea86_z.jpg', 'Urë mbi Vjosën, në Përmet, më 1927.')">
+            <img src="https://live.staticflickr.com/8240/8456043966_9a71a1ea86_z.jpg" alt="Foto 7">
+            <div class="overlay">
+                <h3>Përmet,1927</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 8', 'https://live.staticflickr.com/8231/8454872851_4b24ab0b79_c.jpg', 'Porti i Santi Quarantas, më 1924. Porti i Sarandës. ')">
+            <img src="https://live.staticflickr.com/8231/8454872851_4b24ab0b79_c.jpg" alt="Foto 8">
+            <div class="overlay">
+                <h3>Sarandë,1924</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 9', 'https://live.staticflickr.com/8372/8455864546_dfee1919cb.jpg', 'Xhamia e Sulejman pashës në Tiranë, 1924.')">
+            <img src="https://live.staticflickr.com/8372/8455864546_dfee1919cb.jpg" alt="Foto 9">
+            <div class="overlay">
+                <h3> Tiranë,1924</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 10', 'https://live.staticflickr.com/8250/8455999696_d19e48d925_c.jpg', 'Munështiri i shën Naumit, shqiptar nga 1912 deri në 1925. Foto nga viti 1924. ')">
+            <img src="https://live.staticflickr.com/8250/8455999696_d19e48d925_c.jpg" alt="Foto 10">
+            <div class="overlay">
+                <h3>Lubanishta,1925</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 11', 'https://live.staticflickr.com/8381/8473581457_6d2304554d_z.jpg', 'Kazinoja (ose kursali) e Tiranës, vite 1930.')">
+            <img src="https://live.staticflickr.com/8381/8473581457_6d2304554d_z.jpg" alt="Foto 11">
+            <div class="overlay">
+                <h3>Tiranë,1930</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 12', 'https://live.staticflickr.com/7447/9305752731_737868f27f.jpg', 'Urë venedikase, në lumin Drin. ')">
+            <img src="https://live.staticflickr.com/7447/9305752731_737868f27f.jpg" alt="Foto 12">
+            <div class="overlay">
+                <h3>Drin,1939</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 13', 'https://live.staticflickr.com/5334/9405582713_af2419c28f.jpg', 'Durrës, Durazzo, vite 60. Hoteli Adriatik. ')">
+            <img src="https://live.staticflickr.com/5334/9405582713_af2419c28f.jpg" alt="Foto 13">
+            <div class="overlay">
+                <h3>Durres,1960</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 14', 'https://live.staticflickr.com/2836/9407563940_98afcd6424.jpg', 'Krujë. Kruja. Kështjella e Krujës. ')">
+            <img src="https://live.staticflickr.com/2836/9407563940_98afcd6424.jpg" alt="Foto 14">
+            <div class="overlay">
+                <h3>Krujë,1937</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 15', 'https://live.staticflickr.com/2848/9408338954_ac06c65eae_z.jpg', 'Santi Quaranta. Saranda, 1939-1943, apo para 1939. ')">
+            <img src="https://live.staticflickr.com/2848/9408338954_ac06c65eae_z.jpg" alt="Foto 15">
+            <div class="overlay">
+                <h3>Saranda, 1939-1943</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 16', 'https://live.staticflickr.com/7433/9408764258_794d1f63ee.jpg', 'Vlora,Sheshi i Flamurit me 1924.')">
+            <img src="https://live.staticflickr.com/7433/9408764258_794d1f63ee.jpg" alt="Foto 16">
+            <div class="overlay">
+                <h3>Vlore,1924</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 17', 'https://live.staticflickr.com/3806/9408760382_5e37176c7e_z.jpg', 'Kujtim nga Shqyperia')">
+            <img src="https://live.staticflickr.com/3806/9408760382_5e37176c7e_z.jpg" alt="Foto 17">
+            <div class="overlay">
+                <h3>Tirane</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 18', 'https://live.staticflickr.com/2890/9408759864_ec06211b66_z.jpg', 'Kujtim nga Durresi,Durrazo.')">
+            <img src="https://live.staticflickr.com/2890/9408759864_ec06211b66_z.jpg" alt="Foto 18">
+            <div class="overlay">
+                <h3>Durres</h3>
+            </div>
+        </div>        
+        <div class="gallery-item" onclick="openModal('Qyteti 1', 'https://live.staticflickr.com/5452/9406002685_302ccdb93c_z.jpg', 'Katundi Dardha.')">
+            <img src="https://live.staticflickr.com/5452/9406002685_302ccdb93c_z.jpg" alt="Foto 1">
+            <div class="overlay">
+                <h3>Tirane</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 2', 'https://live.staticflickr.com/7128/7693651506_5560c02776_z.jpg', 'Pamje nga Ura E Mesit.')">
+            <img src="https://live.staticflickr.com/7128/7693651506_5560c02776_z.jpg" alt="Foto 2">
+            <div class="overlay">
+                <h3>Ura e Mesit</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Prizren', 'https://live.staticflickr.com/7126/7693651160_b91f95c23c_z.jpg', 'Pamje e bukur e qytetit të Shkodres.')">
+            <img src="https://live.staticflickr.com/7126/7693651160_b91f95c23c_z.jpg" alt="Foto 3">
+            <div class="overlay">
+                <h3>Shkodra</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 4', 'https://live.staticflickr.com/7130/7686565950_0e26306e6f_z.jpg', 'Pamje e MInistrive ne Tirane.')">
+            <img src="https://live.staticflickr.com/7130/7686565950_0e26306e6f_z.jpg" alt="Foto 4">
+            <div class="overlay">
+                <h3>Tirane</h3>
+            </div>
+        </div>
+        
+        <div class="gallery-item" onclick="openModal('Qyteti 1', 'https://live.staticflickr.com/7425/9408765460_27a1070c5c_z.jpg', 'Pamje e Parkut Nacional Te Durresit')">
+            <img src="https://live.staticflickr.com/7425/9408765460_27a1070c5c_z.jpg" alt="Foto 1">
+            <div class="overlay">
+                <h3>Durres</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 2', 'https://live.staticflickr.com/7433/9408764258_794d1f63ee.jpg', 'Vlore Sheshi I Flamurit.')">
+            <img src="https://live.staticflickr.com/7433/9408764258_794d1f63ee.jpg" alt="Foto 2">
+            <div class="overlay">
+                <h3>Vlore</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 3', 'https://live.staticflickr.com/2857/9408763256_fec4ed2bc2_z.jpg', 'Tiranë, Tirana. Sheshi Skënderbe, xhamia Haxhi Ethem beut dhe kulla e sahatit.')">
+            <img src="https://live.staticflickr.com/2857/9408763256_fec4ed2bc2_z.jpg" alt="Foto 3">
+            <div class="overlay">
+                <h3>Tirane</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 4', 'https://live.staticflickr.com/5452/9406002685_302ccdb93c.jpg', 'Një pamje unike.')">
+            <img src="https://live.staticflickr.com/5452/9406002685_302ccdb93c.jpg" alt="Foto 4">
+            <div class="overlay">
+                <h3>Tirane</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 5', 'https://live.staticflickr.com/3806/9408760382_5e37176c7e.jpg', 'Moment fantastik.')">
+            <img src="https://live.staticflickr.com/3806/9408760382_5e37176c7e.jpg" alt="Foto 5">
+            <div class="overlay">
+                <h3>Tirane</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 6', 'https://live.staticflickr.com/7413/9376520714_3c9edf6194_z.jpg', 'Xhamia e vjeter ne Shkoder.')">
+            <img src="https://live.staticflickr.com/7413/9376520714_3c9edf6194_z.jpg" alt="Foto 6">
+            <div class="overlay">
+                <h3>Shkoder</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 7', 'https://live.staticflickr.com/3734/9378758350_4d6e1ce1f6_z.jpg', 'Ushtaret Italian ne Sarande.')">
+            <img src="https://live.staticflickr.com/3734/9378758350_4d6e1ce1f6_z.jpg" alt="Foto 7">
+            <div class="overlay">
+                <h3>Sarande</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 8', 'https://live.staticflickr.com/2836/9407563940_98afcd6424.jpg', 'Pamje e kulles.')">
+            <img src="https://live.staticflickr.com/2836/9407563940_98afcd6424.jpg" alt="Foto 8">
+            <div class="overlay">
+                <h3>Kruje</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 9', 'https://live.staticflickr.com/7442/9405581473_faaa4c6b6a.jpg', 'Porti i Vogel Detar.')">
+            <img src="https://live.staticflickr.com/7442/9405581473_faaa4c6b6a.jpg" alt="Foto 9">
+            <div class="overlay">
+                <h3>Durres</h3>
+            </div>
+        </div>
+        <div class="gallery-item" onclick="openModal('Qyteti 10', 'https://live.staticflickr.com/3670/9408337230_b471916672_z.jpg', 'Xhamia E Durresit.')">
+            <img src="https://live.staticflickr.com/3670/9408337230_b471916672_z.jpg" alt="Foto 10">
+            <div class="overlay">
+                <h3>Durres</h3>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modal-image" src="" alt="Image in Modal">
+            <div id="modal-description" class="description"></div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">Kthehu te Faqja Kryesore</a>
+<br>
+<br>
+<br>
+
+    <script>
+        // Open Modal
+        function openModal(title, imageUrl, description) {
+            document.getElementById("modal-image").src = imageUrl;
+            document.getElementById("modal-description").textContent = description;
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
